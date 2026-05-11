@@ -1,0 +1,168 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  background: #fdfbf6;
+  color: #161311;
+  font-family: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "ss01", "cv11";
+}
+
+::selection {
+  background: #d83a1f;
+  color: #fdfbf6;
+}
+
+/* Editorial decorations */
+.serif {
+  font-family: "Fraunces", serif;
+  font-feature-settings: "ss01", "ss02", "ss03";
+}
+
+.mono {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  letter-spacing: 0.02em;
+}
+
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.06;
+  mix-blend-mode: multiply;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d6cfbf;
+  border-radius: 999px;
+  border: 2px solid #fdfbf6;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #b8b09c;
+}
+
+/* Animated dotted divider */
+.dotted-divider {
+  background-image: radial-gradient(circle, #161311 1px, transparent 1.2px);
+  background-size: 8px 8px;
+  background-repeat: repeat-x;
+  background-position: center;
+  height: 8px;
+}
+
+/* Subtle ticker */
+.ticker {
+  display: inline-block;
+  white-space: nowrap;
+  animation: tickerSlide 40s linear infinite;
+}
+@keyframes tickerSlide {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Inputs */
+.field {
+  @apply w-full bg-transparent border-b border-ink/20 py-3 px-0 text-ink
+    placeholder:text-ink/30 focus:outline-none focus:border-sauce
+    transition-colors;
+}
+.field-box {
+  @apply w-full bg-cream border border-ink/10 rounded-md py-3 px-4 text-ink
+    placeholder:text-ink/30 focus:outline-none focus:border-sauce
+    focus:ring-2 focus:ring-sauce/20 transition-all;
+}
+.label {
+  @apply block text-[10px] mono uppercase tracking-[0.18em] text-ink/50 mb-2;
+}
+
+/* Tag chip */
+.chip {
+  @apply px-3.5 py-1.5 rounded-full text-xs font-medium border transition-all
+    cursor-pointer select-none;
+}
+.chip-on {
+  @apply bg-ink text-bone border-ink;
+}
+.chip-off {
+  @apply bg-transparent text-ink/70 border-ink/20 hover:border-ink/50;
+}
+
+/* Buttons */
+.btn-primary {
+  @apply inline-flex items-center gap-2 bg-sauce text-bone px-6 py-3
+    rounded-full font-medium text-sm hover:bg-sauce-deep transition-all
+    shadow-card disabled:opacity-50 disabled:cursor-not-allowed;
+}
+.btn-ink {
+  @apply inline-flex items-center gap-2 bg-ink text-bone px-6 py-3
+    rounded-full font-medium text-sm hover:bg-ink-soft transition-all
+    shadow-card disabled:opacity-50 disabled:cursor-not-allowed;
+}
+.btn-ghost {
+  @apply inline-flex items-center gap-2 bg-transparent text-ink px-5 py-3
+    rounded-full font-medium text-sm hover:bg-ink/5 transition-all;
+}
+.btn-outline {
+  @apply inline-flex items-center gap-2 bg-cream text-ink border border-ink/20
+    px-5 py-3 rounded-full font-medium text-sm hover:border-ink hover:bg-bone
+    transition-all;
+}
+
+/* Cards */
+.card {
+  @apply bg-cream rounded-2xl border border-ink/10 shadow-card relative
+    overflow-hidden;
+}
+
+/* Loading shimmer */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(22, 19, 17, 0.04) 0%,
+    rgba(22, 19, 17, 0.12) 50%,
+    rgba(22, 19, 17, 0.04) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Marquee badge — small editorial flourish */
+.editorial-rule {
+  border-top: 1px solid #161311;
+  border-bottom: 1px solid #161311;
+  padding: 6px 0;
+}
