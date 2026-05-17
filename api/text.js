@@ -44,8 +44,21 @@ export default async function handler(req, res) {
     const sys =
       system ||
       (wantJson
-        ? "You are a precise assistant. Always respond with valid JSON only — no markdown, no commentary."
+        ? "You are a precise assistant. Always respond with valid JSON only — no markdown, no commentary. Match the requested JSON shape EXACTLY, including every field name, nesting, and array structure shown."
         : "You are a thoughtful, concise assistant.");
+
+    // When a schema is provided, append it to the prompt so the model knows
+    // the exact keys, types, and structure to produce. Without this the
+    // schema is effectively discarded and the model invents its own keys.
+    const finalPrompt = wantJson
+      ? `${prompt}
+
+Respond with STRICT JSON matching exactly this shape — use these EXACT field names and structure, no extras, no renames:
+
+${JSON.stringify(schema, null, 2)}
+
+Where a value is written as "string", produce a string. Where an array of objects is shown, produce that array with each object having those exact keys. Do not wrap the response in any other object.`
+      : prompt;
 
     const gemini = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     const model = gemini.getGenerativeModel({
@@ -58,7 +71,7 @@ export default async function handler(req, res) {
       },
     });
 
-    const result = await model.generateContent(prompt);
+    const result = await model.generateContent(finalPrompt);
     const text = result.response.text();
 
     if (wantJson) {
